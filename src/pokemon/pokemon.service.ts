@@ -60,7 +60,13 @@ export class PokemonService {
 
   }
 
-  remove(id: number) {
+  async remove(id: string) {
+    const pokemon = await this.findOne(id);
+    try {
+      await pokemon.deleteOne();
+    } catch (error) {
+      this.handleExceptions(error);
+    };
     return `This action removes a #${id} pokemon`;
   }
   private handleExceptions(error: any) {
